@@ -30,10 +30,10 @@ INSERT INTO Discount_Rate (discount_name, discount_value) VALUES
 ('Silver', 5.00),
 ('Gold', 10.00);
 
-INSERT INTO Membership (discount_id, membership_type, discount_rate, status) VALUES
-(1, 'Regular', 0.00, 'Active'),
-(2, 'Silver Member', 5.00, 'Active'),
-(3, 'Gold Member', 10.00, 'Inactive');
+INSERT INTO Membership (discount_id, membership_type, status) VALUES
+(1, 'Regular', 'Active'),
+(2, 'Silver Member',  'Active'),
+(3, 'Gold Member',  'Inactive');
 
 INSERT INTO Customer (membership_id, customer_name, customer_phone, customer_email) VALUES
 (1, 'Daniel Tan', '0811111111', 'daniel@example.com'),
@@ -52,11 +52,11 @@ INSERT INTO Payment_Method (method_name, description, is_active) VALUES
 
 INSERT INTO Orders (
     customer_id, staff_id, table_id, method_id, reservation_id,
-    order_date, total_amount, payment_date, payment_amount
+    order_date,  payment_date, payment_amount
 ) VALUES
-(1, 1, 1, 1, 1, '2025-01-10 18:30:00', 6.50, '2025-01-10 19:00:00', 6.50),
-(2, 2, 2, 2, 2, '2025-01-11 19:10:00', 8.50, '2025-01-11 19:40:00', 8.50),
-(3, 3, 3, 3, 3, '2025-01-12 20:45:00', 3.50, '2025-01-12 21:00:00', 3.50);
+(1, 1, 1, 1, 1, '2025-01-10 18:30:00',  '2025-01-10 19:00:00', 6.50),
+(2, 2, 2, 2, 2, '2025-01-11 19:10:00', '2025-01-11 19:40:00', 8.50),
+(3, 3, 3, 3, 3, '2025-01-12 20:45:00',  '2025-01-12 21:00:00', 3.50);
 
 INSERT INTO Order_Details (order_id, menu_id, quantity, subtotal) VALUES
 (1, 1, 1, 1.50),

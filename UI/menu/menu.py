@@ -14,10 +14,10 @@ def menu_tab(notebook):
         ],
         pk="menu_id",
         add_fields=[
-            ("category_id", "Category ID"),
-            ("item_name", "Item Name"),
-            ("item_price", "Price"),
-            ("item_description", "Description")
+            "category_id", 
+            "item_name", 
+            "item_price",
+            "item_description", 
         ],
         optional_fields=[]
     )

@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, simpledialog, ttk
 from database import connect_db
 import datetime
+import mysql.connector
 
 # GENERIC FETCH & REFRESH FUNCTION
 def refresh_table(tree, query):
@@ -166,7 +167,8 @@ def update_window(title, fields, update_sql, id_field, get_selected_ids, refresh
 
     tk.Button(win, text="Submit", command=submit).grid(row=len(fields), column=1, pady=10, sticky="e")
 
-    
+
+
 def delete_rows(tree, table_name, pk_fields, refresh_callback):
     sel = tree.selection()
     if not sel:
@@ -178,19 +180,118 @@ def delete_rows(tree, table_name, pk_fields, refresh_callback):
 
     conn = connect_db()
     cur = conn.cursor()
+
     try:
         for item in sel:
             vals = tree.item(item, "values")
-            # assume the tree columns include pk fields in the same order as pk_fields
             where_clause = " AND ".join([f"{f} = %s" for f in pk_fields])
             sql = f"DELETE FROM {table_name} WHERE {where_clause}"
             params = tuple(vals[i] for i in range(len(pk_fields)))
             cur.execute(sql, params)
+
         conn.commit()
+
         messagebox.showinfo("Deleted", f"{len(sel)} row(s) deleted.")
         refresh_callback()
-    except Exception as e:
-        messagebox.showerror("Error", f"Delete failed:\n{e}")
+
+    except mysql.connector.Error as e:
+        conn.rollback()
+
+        if e.errno == 1451:
+            messagebox.showerror(
+                "Delete blocked",
+                "This record is referenced by another table.\n"
+                "Delete related records first."
+            )
+        else:
+            messagebox.showerror("Database Error", str(e))
+
     finally:
         cur.close()
         conn.close()
+        
+
+def orders_view_tab(notebook):
+    frame = tk.Frame(notebook)
+    notebook.add(frame, text="Orders")
+
+    # ================= FILTER BAR =================
+    filter_frame = tk.Frame(frame)
+    filter_frame.pack(fill="x", padx=10, pady=5)
+
+    tk.Label(filter_frame, text="Min Payment:").pack(side="left")
+    min_entry = tk.Entry(filter_frame, width=10)
+    min_entry.pack(side="left", padx=5)
+
+    tk.Label(filter_frame, text="Max Payment:").pack(side="left")
+    max_entry = tk.Entry(filter_frame, width=10)
+    max_entry.pack(side="left", padx=5)
+
+    # ================= TABLE =================
+    columns = (
+        "order_id",
+        "customer_id",
+        "staff_id",
+        "table_id",
+        "payment_amount",
+        "order_date"
+    )
+
+    tree = ttk.Treeview(frame, columns=columns, show="headings")
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=120)
+
+    tree.pack(fill="both", expand=True, padx=10, pady=5)
+
+    # ================= DATA LOADER =================
+    def load_orders(min_val=None, max_val=None):
+        conn = connect_db()
+        cur = conn.cursor()
+
+        if min_val is not None and max_val is not None:
+            sql = """
+                SELECT order_id, customer_id, staff_id, table_id,
+                       payment_amount, order_date
+                FROM Orders
+                WHERE payment_amount BETWEEN %s AND %s
+            """
+            cur.execute(sql, (min_val, max_val))
+        else:
+            sql = """
+                SELECT order_id, customer_id, staff_id, table_id,
+                       payment_amount, order_date
+                FROM Orders
+            """
+            cur.execute(sql)
+
+        rows = cur.fetchall()
+        tree.delete(*tree.get_children())
+        for r in rows:
+            tree.insert("", tk.END, values=r)
+
+        cur.close()
+        conn.close()
+
+    # ================= BUTTON ACTIONS =================
+    def apply_filter():
+        try:
+            min_val = float(min_entry.get())
+            max_val = float(max_entry.get())
+            load_orders(min_val, max_val)
+        except ValueError:
+            messagebox.showwarning(
+                "Invalid input",
+                "Please enter valid numbers for payment amount."
+            )
+
+    def clear_filter():
+        min_entry.delete(0, tk.END)
+        max_entry.delete(0, tk.END)
+        load_orders()
+
+    tk.Button(filter_frame, text="Apply Filter", command=apply_filter).pack(side="left", padx=10)
+    tk.Button(filter_frame, text="Clear", command=clear_filter).pack(side="left")
+
+    # Initial load
+    load_orders()

@@ -15,11 +15,11 @@ def reservation_tab(notebook):
         ],
         pk="reservation_id",
         add_fields=[
-            ("customer_id", "Customer ID"),
-            ("table_id", "Table ID"),
-            ("reservation_date", "Reservation Date"),
-            ("reservation_time", "Reservation Time"),
-            ("status", "Status")
+            "customer_id", 
+            "table_id", 
+            "reservation_date", 
+            "reservation_time", 
+            "status", 
         ],
         optional_fields=[]
     )

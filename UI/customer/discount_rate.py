@@ -12,8 +12,8 @@ def discount_tab(notebook):
         ],
         pk="discount_id",
         add_fields=[
-            ("discount_name", "Discount Name"),
-            ("discount_value", "Discount Value")
+            "discount_name", 
+            "discount_value"
         ],
         optional_fields=[]
     )

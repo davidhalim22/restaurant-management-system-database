@@ -12,8 +12,8 @@ def payment_tab(notebook):
         ],
         pk="method_id",
         add_fields=[
-            ("method_name", "Method Name"),
-            ("is_active", "Status")
+            "method_name", 
+            "is_active", 
         ],
         optional_fields=[]
     )
