@@ -12,9 +12,8 @@ def table_tab(notebook):
         ],
         pk="table_id",
         add_fields=[
-            ("table_number", "Table Number"),
-            ("capacity", "Capacity"),
-            ("location", "Location")
+            "capacity", 
+            "location", 
         ],
         optional_fields=[]
     )

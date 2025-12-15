@@ -12,8 +12,8 @@ def role_tab(notebook):
         ],
         pk="staff_role_id",
         add_fields=[
-            ("role_name", "Role Name"),
-            ("role_description", "Description")
+            "role_name", 
+            "role_description",
         ],
         optional_fields=[]
     )

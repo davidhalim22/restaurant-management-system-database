@@ -13,10 +13,10 @@ def detail_tab(notebook):
         ],
         pk="order_id",
         add_fields=[
-            ("order_id", "Order ID"),
-            ("menu_id", "Menu ID"),
-            ("quantity", "Quantity"),
-            ("subtotal", "Subtotal")
+            "order_id", 
+            "menu_id", 
+            "quantity", 
+            "subtotal"
         ],
         optional_fields=[]
     )
