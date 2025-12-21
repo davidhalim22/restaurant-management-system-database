@@ -12,8 +12,8 @@ def category_tab(notebook):
         ],
         pk="category_id",
         add_fields=[
-            ("category_name", "Category Name"),
-            ("category_description", "Description")
+            "category_name", 
+            "category_description"
         ],
         optional_fields=[]
     )

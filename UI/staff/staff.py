@@ -16,11 +16,11 @@ def staff_tab(notebook):
         ],
         pk="staff_id",
         add_fields=[
-            ("staff_role_id", "Role ID"),
-            ("staff_name", "Staff Name"),
-            ("staff_phone", "Phone"),
-            ("staff_address", "Address"),
-            ("staff_shift_time", "Shift Time")
+            "staff_role_id", 
+            "staff_name", 
+            "staff_phone",
+            "staff_address", 
+            "staff_shift_time", 
         ],
         optional_fields=[]
     )

@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS restaurant_db;
-CREATE DATABASE restaurant_db;
+CREATE DATABASE IF NOT EXISTS restaurant_db;
 USE restaurant_db;
 
 CREATE TABLE Table_ (
@@ -39,19 +39,12 @@ CREATE TABLE Menu (
     FOREIGN KEY (category_id) REFERENCES Menu_Category(category_id)
 );
 
-CREATE TABLE Discount_Rate (
-    discount_id INT AUTO_INCREMENT PRIMARY KEY,
-    discount_name VARCHAR(100),
-    discount_value DECIMAL(5,2)
-);
 
 CREATE TABLE Membership (
     membership_id INT AUTO_INCREMENT PRIMARY KEY,
-    discount_id INT NOT NULL,
-    membership_type VARCHAR(100),
-    discount_rate DECIMAL(5,2),
-    status VARCHAR(50),
-    FOREIGN KEY (discount_id) REFERENCES Discount_Rate(discount_id)
+    discount_rate DECIMAL(10,2) NOT NULL,
+    membership_type VARCHAR(100)
+
 );
 
 CREATE TABLE Customer (
@@ -83,15 +76,14 @@ CREATE TABLE Payment_Method (
 
 CREATE TABLE Orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
+    customer_id INT,
     staff_id INT NOT NULL,
     table_id INT NOT NULL,
-    method_id INT NOT NULL,
+    method_id INT DEFAULT NULL,
     reservation_id INT,
     order_date DATETIME,
-    total_amount DECIMAL(10,2),
-    payment_date DATETIME,
-    payment_amount DECIMAL(10,2),
+    payment_date DATETIME DEFAULT NULL ,
+    payment_amount DECIMAL(10,2) DEFAULT NULL, 
     
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (staff_id) REFERENCES Staff(staff_id),
@@ -109,3 +101,4 @@ CREATE TABLE Order_Details (
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
     FOREIGN KEY (menu_id) REFERENCES Menu(menu_id)
 );
+

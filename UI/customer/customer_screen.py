@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from customer.customer import customer_tab
 from customer.membership import membership_tab
-from customer.discount_rate import discount_tab
+
 from customer.reservation import reservation_tab
 
 def customer_screen(app):
@@ -24,9 +24,6 @@ def customer_screen(app):
 
     # --- Membership Tab
     membership_tab(notebook)
-    
-    # --- discount Tab
-    discount_tab(notebook)
     
     # --- reservation Tab
     reservation_tab(notebook)

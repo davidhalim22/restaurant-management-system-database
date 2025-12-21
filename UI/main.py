@@ -4,7 +4,7 @@ from customer.customer_screen import customer_screen
 from menu.menu_screen import menu_screen
 from order.order_screen import order_screen
 from staff.staff_screen import staff_screen
-from view import view_screen
+from view import view_screen; 
 
 
 class App(tk.Tk):

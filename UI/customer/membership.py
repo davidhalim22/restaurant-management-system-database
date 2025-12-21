@@ -7,17 +7,15 @@ def membership_tab(notebook):
         table_name="Membership",
         columns=[
             "membership_id",
-            "discount_id",
-            "membership_type",
             "discount_rate",
-            "status"
+            "membership_type"
+            
         ],
         pk="membership_id",
         add_fields=[        # fields for popup when adding
-            "discount_id",
-            "membership_type",
             "discount_rate",
-            "status"
+            "membership_type"
+            
         ],
         optional_fields=[]   # leaving this blank becomes NULL in DB
     )

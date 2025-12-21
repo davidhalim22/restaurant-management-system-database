@@ -13,21 +13,18 @@ def order_tab(notebook):
             "method_id",
             "reservation_id",
             "order_date",
-            "total_amount",
             "payment_date",
             "payment_amount"
         ],
         pk="order_id",
         add_fields=[
-            ("customer_id", "Customer ID"),
-            ("staff_id", "Staff ID"),
-            ("table_id", "Table ID"),
-            ("method_id", "Payment Method ID"),
-            ("reservation_id", "Reservation ID"),
-            ("order_date", "Order Date"),
-            ("total_amount", "Total Amount"),
-            ("payment_date", "Payment Date"),
-            ("payment_amount", "Payment Amount")
+            "customer_id", 
+            "staff_id", 
+            "table_id", 
+            "method_id", 
+            "reservation_id", 
+            "order_date", 
+            "payment_date"
         ],
-        optional_fields=[]
+        optional_fields=["customer_id","reservation_id", "payment_date", "payment_amount","method_id"]
     )
